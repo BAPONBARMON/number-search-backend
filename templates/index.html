@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Number Search Tool</title>
+    <style>
+        body {
+            background-color: #0f0;
+            color: black;
+            font-family: monospace;
+            padding: 20px;
+        }
+        h1 {
+            color: black;
+        }
+        .result {
+            background: black;
+            color: #0f0;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #0f0;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: black;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background: black;
+            color: #0f0;
+            border: 1px solid #0f0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Number Search Tool</h1>
+    <input type="text" id="phone" placeholder="Enter phone number">
+    <button onclick="searchNumber()">Search</button>
+
+    <div id="output"></div>
+
+    <footer>Powered by <b>BAPON BARMON</b></footer>
+
+    <script>
+        async function searchNumber() {
+            const number = document.getElementById('phone').value;
+            const res = await fetch('/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ number })
+            });
+            const data = await res.json();
+            const output = document.getElementById('output');
+            output.innerHTML = '';
+            data.results.forEach(r => {
+                output.innerHTML += `<div class="result"><b>${r.platform}:</b> <a href="${r.result}" target="_blank">${r.result}</a></div>`;
+            });
+        }
+    </script>
+</body>
+</html>
